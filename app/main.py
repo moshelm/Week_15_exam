@@ -19,7 +19,10 @@ def customers_credit_limit_outliers():
 
 @app.get("/q2/orders-null-comments")
 def orders_null_comments():
-    pass
+    conn = get_db_connection()
+    res_data = get_orders_with_null_comments(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q3/customers-first-5")
 def customers_first_5():
