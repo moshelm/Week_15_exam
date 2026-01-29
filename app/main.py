@@ -26,7 +26,10 @@ def orders_null_comments():
 
 @app.get("/q3/customers-first-5")
 def customers_first_5():
-    pass
+    conn = get_db_connection()
+    res_data = get_first_5_customers(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q4/payments-total-average")
 def payments_total_average():
