@@ -33,7 +33,10 @@ def customers_first_5():
 
 @app.get("/q4/payments-total-average")
 def payments_total_average():
-    pass
+    conn = get_db_connection()
+    res_data = get_payments_total_and_average(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q5/employees-office-phone")
 def employees_office_phone():

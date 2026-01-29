@@ -38,8 +38,14 @@ def get_first_5_customers(conn):
     return res
 def get_payments_total_and_average(conn):
     """Return total and average payment amounts."""
-
-def get_employees_with_office_phone():
+    query = """SELECT SUM(p.amount) AS total , AVG(p.amount) as AVERAGE, MIN(p.amount) AS minimum, MAX(p.amount) AS maximum FROM payments p;"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
+def get_employees_with_office_phone(conn):
     """Return employees with their office phone numbers."""
 
 def get_customers_with_shipping_dates():
