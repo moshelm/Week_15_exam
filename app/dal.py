@@ -1,33 +1,92 @@
 from typing import List, Dict, Any
 
-def get_customers_by_credit_limit_range():
+
+
+
+def get_customers_by_credit_limit_range(conn):
     """Return customers with credit limits outside the normal range."""
-    pass
+    query = "SELECT c.customerName ,c.creditLimit FROM customers c WHERE creditLimit > 100000 or creditLimit < 10000;"
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
 
-def get_orders_with_null_comments():
+def get_orders_with_null_comments(conn):
     """Return orders that have null comments."""
-    pass
+    query = """SELECT o.orderNumber, o.comments FROM orders o 
+    WHERE comments IS NULL
+    ORDER BY o.orderDate
+    """
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
 
-def get_first_5_customers():
+def get_first_5_customers(conn):
     """Return the first 5 customers."""
-    pass
-
-def get_payments_total_and_average():
+    query = """SELECT c.customerName, c.contactLastName, c.contactFirstName FROM customers c 
+    ORDER BY  c.contactLastName LIMIT 5;"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
+def get_payments_total_and_average(conn):
     """Return total and average payment amounts."""
-    pass
-
-def get_employees_with_office_phone():
+    query = """SELECT SUM(p.amount) AS total , AVG(p.amount) as AVERAGE, MIN(p.amount) AS minimum, MAX(p.amount) AS maximum FROM payments p;"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
+def get_employees_with_office_phone(conn):
     """Return employees with their office phone numbers."""
-    pass
-
-def get_customers_with_shipping_dates():
+    query = """SELECT e.firstName , e.lastName, o.phone 
+    FROM employees e JOIN offices o on o.officeCode=e.officeCode;"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
+def get_customers_with_shipping_dates(conn):
     """Return customers with their order shipping dates."""
-    pass
+    query = """SELECT c.customerName, o.shippedDate 
+    FROM customers c LEFT JOIN orders o ON c.customerNumber=o.customerNumber"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
 
-def get_customer_quantity_per_order():
+def get_customer_quantity_per_order(conn):
     """Return customer name and quantity for each order."""
-    pass
+    query = """SELECT c.customerName, od.quantityOrdered AS quantity_for_each_order
+    FROM customers c LEFT JOIN orders o ON c.customerNumber=o.customerNumber 
+    JOIN orderdetails od ON o.orderNumber=od.orderNumber ORDER BY c.customerName;"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
 
-def get_customers_payments_by_lastname_pattern(pattern: str = "son"):
+def get_customers_payments_by_lastname_pattern(conn):
     """Return customers and payments for last names matching pattern."""
-    pass
+    query = """SELECT c.customerName, e.firstName, SUM(p.amount) 
+    FROM customers c  JOIN employees e ON c.salesRepEmployeeNumber=e.employeeNumber JOIN payments p ON c.customerNumber=p.customerNumber
+    WHERE c.contactFirstName LIKE '%Mu%' OR c.contactFirstName LIKE '%ly%'
+    GROUP BY c.customerName, e.firstName"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res

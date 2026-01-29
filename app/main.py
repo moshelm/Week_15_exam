@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from db_init import init_database
-
+from db import get_db_connection
+from dal import *
 app = FastAPI()
 
 init_database()
@@ -11,32 +12,56 @@ def health_check():
 
 @app.get("/q1/customers-credit-limit-outliers")
 def customers_credit_limit_outliers():
-    pass
+    conn = get_db_connection()
+    res_data = get_customers_by_credit_limit_range(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q2/orders-null-comments")
 def orders_null_comments():
-    pass
+    conn = get_db_connection()
+    res_data = get_orders_with_null_comments(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q3/customers-first-5")
 def customers_first_5():
-    pass
+    conn = get_db_connection()
+    res_data = get_first_5_customers(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q4/payments-total-average")
 def payments_total_average():
-    pass
+    conn = get_db_connection()
+    res_data = get_payments_total_and_average(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q5/employees-office-phone")
 def employees_office_phone():
-    pass
+    conn = get_db_connection()
+    res_data = get_employees_with_office_phone(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q6/customers-shipping-dates")
 def customers_shipping_dates():
-    pass
+    conn = get_db_connection()
+    res_data = get_customers_with_shipping_dates(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q7/customer-quantity-per-order")
 def customer_quantity_per_order():
-    pass
+    conn = get_db_connection()
+    res_data = get_customer_quantity_per_order(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q8/customers-payments-by-lastname-pattern")
-def customers_payments_by_lastname_pattern(pattern: str = "son"):
-    pass
+def customers_payments_by_lastname_pattern():
+    conn = get_db_connection()
+    res_data = get_customers_payments_by_lastname_pattern(conn)
+    conn.close()
+    return {'res':res_data}
