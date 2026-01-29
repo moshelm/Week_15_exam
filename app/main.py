@@ -60,5 +60,8 @@ def customer_quantity_per_order():
     return {'res':res_data}
 
 @app.get("/q8/customers-payments-by-lastname-pattern")
-def customers_payments_by_lastname_pattern(pattern: str = "son"):
-    pass
+def customers_payments_by_lastname_pattern():
+    conn = get_db_connection()
+    res_data = get_customers_payments_by_lastname_pattern(conn)
+    conn.close()
+    return {'res':res_data}

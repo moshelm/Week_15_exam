@@ -80,4 +80,13 @@ def get_customer_quantity_per_order(conn):
 
 def get_customers_payments_by_lastname_pattern(conn):
     """Return customers and payments for last names matching pattern."""
-    pass
+    query = """SELECT c.customerName, e.firstName, SUM(p.amount) 
+    FROM customers c  JOIN employees e ON c.salesRepEmployeeNumber=e.employeeNumber JOIN payments p ON c.customerNumber=p.customerNumber
+    WHERE c.contactFirstName LIKE '%Mu%' OR c.contactFirstName LIKE '%ly%'
+    GROUP BY c.customerName, e.firstName"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
