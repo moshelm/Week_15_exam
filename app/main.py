@@ -54,7 +54,10 @@ def customers_shipping_dates():
 
 @app.get("/q7/customer-quantity-per-order")
 def customer_quantity_per_order():
-    pass
+    conn = get_db_connection()
+    res_data = get_customer_quantity_per_order(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q8/customers-payments-by-lastname-pattern")
 def customers_payments_by_lastname_pattern(pattern: str = "son"):
