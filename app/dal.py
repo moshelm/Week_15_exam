@@ -5,6 +5,13 @@ conn = get_db_connection()
 
 def get_customers_by_credit_limit_range():
     """Return customers with credit limits outside the normal range."""
+    query = "SELECT c.customerName ,c.creditLimit FROM customers c WHERE creditLimit > 100000 or creditLimit < 10000;"
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
 
 def get_orders_with_null_comments():
     """Return orders that have null comments."""
