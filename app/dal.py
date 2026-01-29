@@ -57,6 +57,14 @@ def get_employees_with_office_phone(conn):
     return res
 def get_customers_with_shipping_dates(conn):
     """Return customers with their order shipping dates."""
+    query = """SELECT c.customerName, o.shippedDate 
+    FROM customers c LEFT JOIN orders o ON c.customerNumber=o.customerNumber"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
 
 def get_customer_quantity_per_order():
     """Return customer name and quantity for each order."""
