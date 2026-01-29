@@ -1,9 +1,9 @@
 from typing import List, Dict, Any
-from db import get_db_connection
 
-conn = get_db_connection()
 
-def get_customers_by_credit_limit_range():
+
+
+def get_customers_by_credit_limit_range(conn):
     """Return customers with credit limits outside the normal range."""
     query = "SELECT c.customerName ,c.creditLimit FROM customers c WHERE creditLimit > 100000 or creditLimit < 10000;"
     cursor = conn.cursor()
@@ -13,7 +13,7 @@ def get_customers_by_credit_limit_range():
     conn.close()
     return res
 
-def get_orders_with_null_comments():
+def get_orders_with_null_comments(conn):
     """Return orders that have null comments."""
     
 def get_first_5_customers():

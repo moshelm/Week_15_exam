@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from db_init import init_database
-
+from db import get_db_connection
+from dal import *
 app = FastAPI()
 
 init_database()
