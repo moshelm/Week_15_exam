@@ -40,7 +40,10 @@ def payments_total_average():
 
 @app.get("/q5/employees-office-phone")
 def employees_office_phone():
-    pass
+    conn = get_db_connection()
+    res_data = get_employees_with_office_phone(conn)
+    conn.close()
+    return {'res':res_data}
 
 @app.get("/q6/customers-shipping-dates")
 def customers_shipping_dates():

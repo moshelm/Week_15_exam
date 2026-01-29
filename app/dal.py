@@ -47,8 +47,15 @@ def get_payments_total_and_average(conn):
     return res
 def get_employees_with_office_phone(conn):
     """Return employees with their office phone numbers."""
-
-def get_customers_with_shipping_dates():
+    query = """SELECT e.firstName , e.lastName, o.phone 
+    FROM employees e JOIN offices o on o.officeCode=e.officeCode;"""
+    cursor = conn.cursor()
+    cursor.execute(query)
+    res = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return res
+def get_customers_with_shipping_dates(conn):
     """Return customers with their order shipping dates."""
 
 def get_customer_quantity_per_order():
