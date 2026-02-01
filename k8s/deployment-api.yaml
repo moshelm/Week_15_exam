@@ -20,6 +20,19 @@ spec:
         command: ['sh', '-c', "until nc -zv mysql 3306; do echo waiting for mysql; sleep 2; done;"]
       containers:
       - name: api
-        image: moshe5434/sql-api:v1
+        image: moshe5434/mysql-basic:v1
         ports:
         - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources: 
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
