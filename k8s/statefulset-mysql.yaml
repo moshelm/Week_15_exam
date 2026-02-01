@@ -8,13 +8,11 @@ spec:
       app: mysql
   serviceName: mysql
   replicas: 1
-  
   template: 
     metadata:
       labels:
         app: mysql
     spec:
-      
       containers:
       - name: mysql-con
         image: mysql:8.0
